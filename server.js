@@ -12,9 +12,13 @@ const app = express();
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
+app.use(bodyParser.json());   
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(router);
-app.set({ extended: true });
+
+// app.use(bodyParser.urlencoded({ extended: true }))
 
 app.listen(4000, () => console.log("http://localhost:4000/"));
