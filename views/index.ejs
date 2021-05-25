@@ -1,12 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taskhome</title>
+    <link rel="icon" href="https://freepngimg.com/thumb/symbol/88546-area-text-symbol-icons-question-mark-computer.png"
+        type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
-    <center>Hello word</center>
+    <section>
+        <div class="container">
+            <center id="serverResponse" style="color:red"></center>
+            <div class="user signinBx">
+                <div class="formBx" id="login">
+                    <form id="formLogin" method="post">
+                        <h2>Login</h2>
+                        <input type="text" name="username" id="usernameLogin" placeholder="Username" />
+                        <input type="password" name="password" id="passwordLogin" placeholder="Password"
+                            id="password" />
+                        <div style="display:flex;justify-content: center;">
+                            <input type="submit" value="Submit" />
+                        </div>
+                        <p class="signup">Don't have account ?<a onclick="toggleForm();">Register now</a></p>
+                        <p class="signup">Forget password ?<a onclick="Form()">Click here.</a>
+                        </p>
+                        <div class="text-area">
+                            <!-- <p class="or"><span class="or">Or Login </span></p>
+              
+          		<a data-onsuccess="onSignIn"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+              	<a  class="g-signin2" data-onsuccess="onSignIn"><i class="fab fa-google" aria-hidden="true"></i></a>
+              	<div class="g-signin2" style="background-color: red" data-onsuccess="onSignIn">1</div>
+               -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="user signupBx">
+                <div class="formBx">
+                    <form id="formRegister" method="post">
+                        <h2>Register</h2>
+                        <input type="text" name="name" id="nameRegister" placeholder="Name" />
+                        <input type="email" name="email" id="emailRegister" placeholder="Your Email" />
+                        <input type="text" name="phone" id="phoneRegister" placeholder="Your Phone" />
+                        <input type="text" name="username" id="usernameRegister" placeholder="Username" />
+                        <input type="password" name="password" id="passwordRegister" placeholder="New Password" />
+                        <!--<input type="password" placeholder="Confirm Password" />-->
+                        <div style="display: flex;justify-content: space-between;">
+                            <input type="button" value="<<" onclick="toggleForm()" />
+                            <input type="submit" value="Submit">
+                        </div>
+                        <!-- <p class="signup">
+              Already have account ?<a href="#" onclick="toggleForm()">Login.</a>
+            </p> -->
+                        <!-- <div class="text-area">
+                <p class="or"><span class="or">Or Signup</span></p>
+                <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-google" aria-hidden="true"></i></a>
+              </div> -->
+                    </form>
+                </div>
+            </div>
+
+            <div class="user forgotBx">
+                <div class="formBx">
+                    <form id="formForgot" method="POST">
+                        <h2>Reset Password</h2>
+                        <input type="email" name="email" id="emailForgot" placeholder="Your Email" />
+                        <input type="text" name="phone" id="phoneForgot" placeholder="Your Phone" />
+                        <input type="text" name="username" id="usernameForgot" placeholder="Username" />
+                        <input type="password" name="password" id="passwordForgot" placeholder="New Password" />
+                        <input type="password" name="passwordConfirm" id="passwordConfirmForgot"
+                            placeholder="Confirm Password" />
+                        <div style="display:flex;justify-content: space-between;">
+                            <input type="button" value="<<" onclick="Form()" />
+                            <input type="submit" value="Submit">
+                        </div>
+                        <!-- <p class="signup">
+                Already have account ?<a href="#" 
+                  >LogIn.</a
+                >
+              </p>
+              <div class="text-area">
+                <p class="or"><span class="or">Or Signup</span></p>
+                <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-google" aria-hidden="true"></i></a>
+              </div> -->
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // if (document.cookie.length > 0) window.location.href = "http://localhost:4000/website-trac-nghiem";
+        // console.log(document.cookie + " here");
+
+        // if(!res || res.data) console.log(res.data);
+
+        function toggleForm() {
+            var container = document.querySelector(".container");
+            container.classList.toggle("active");
+        };
+
+        function Form() {
+            var container = document.querySelector(".container");
+            container.classList.toggle("activate");
+        };
+
+        $(document).ready(() => {
+            $('#formRegister').submit((event) => {
+                event.preventDefault();
+                console.log($('#formRegister').serialize());
+                $.post({
+                    url: 'register',
+                    dataType: 'json',
+                    data: $('#formRegister').serialize(),
+                    success: (res) => {
+                        console.log("res",res);
+                        $("#serverResponse").text(res.message);
+                        if (res.message !== "success") return
+                        resetForm("#formRegister")
+                    }
+                });
+            });
+
+            $('#formLogin').submit((event) => {
+                event.preventDefault();
+
+                $("#serverResponse").text("Waiting for login...");
+                $.post({
+                    url: 'login',
+                    dataType: 'json',
+                    data: $('#formLogin').serialize(),
+                    success: (res) => {
+                        $("#serverResponse").text(res.message);
+                        if (res.message !== "success") return
+                        // setCookie()
+                        resetForm("#formLogin")
+                        window.location.href = res.redirect
+                    }
+                });
+
+            });
+
+            $('#formForgot').submit(function (event) {
+                event.preventDefault();
+
+                const passwordForgot = $("#passwordForgot").val();
+                const passwordConfirmForgot = $("#passwordConfirmForgot").val();
+                if (passwordForgot !== passwordConfirmForgot) return $("#serverResponse").text("Error : Password is not confirmed!");
+
+                $.post({
+                    url: 'forgot',
+                    dataType: 'json',
+                    data: $('#formForgot').serialize(),
+                    success: (res) => {
+                        $("#serverResponse").text(res.message);
+                        if (res.message !== "success") return
+                        resetForm("#formForgot")
+                    }
+                });
+            });
+
+            // const setCookie = () => {
+            //     const username = $("#usernameLogin").val()
+            //     //document.cookie = "username=" + username;
+
+            //     var d = new Date();
+            //     d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
+            //     var expires = "expires=" + d.toUTCString();
+            //     document.cookie = "username=" + username + ";" + expires + ";path=/";
+            // }
+
+            const resetForm = (id) => {
+                $(id).trigger("reset")
+            }
+        });
+    </script>
+
 </body>
+
 </html>
