@@ -50,7 +50,7 @@ const checkExistAccount = async (data) => {
       getResult(rows);
     });
 
-  return result.length==0?false:true;
+  return result.length == 0 ? false : true;
 };
 
 const registerAccount = async (data) => {

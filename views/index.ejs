@@ -124,7 +124,7 @@
                     dataType: 'json',
                     data: $('#formRegister').serialize(),
                     success: (res) => {
-                        console.log("res",res);
+                        console.log("res", res);
                         $("#serverResponse").text(res.message);
                         if (res.message !== "success") return
                         resetForm("#formRegister")
@@ -134,7 +134,7 @@
 
             $('#formLogin').submit((event) => {
                 event.preventDefault();
-
+                console.log($('#formLogin').serialize());
                 $("#serverResponse").text("Waiting for login...");
                 $.post({
                     url: 'login',
@@ -143,9 +143,9 @@
                     success: (res) => {
                         $("#serverResponse").text(res.message);
                         if (res.message !== "success") return
-                        // setCookie()
+                        saveToken(res.token)
                         resetForm("#formLogin")
-                        window.location.href = res.redirect
+                        window.location.href = "/shopping"
                     }
                 });
 
@@ -179,6 +179,11 @@
             //     var expires = "expires=" + d.toUTCString();
             //     document.cookie = "username=" + username + ";" + expires + ";path=/";
             // }
+
+            const saveToken = (token) => {
+                // console.log(token);
+                localStorage.setItem("token", token)
+            }
 
             const resetForm = (id) => {
                 $(id).trigger("reset")

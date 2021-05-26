@@ -12,11 +12,9 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-router.get("/login", (req, res) => {
-  res.render("index", login);
-});
-
 router.post("/register", register);
+
+router.post("/login", login);
 
 router.get("/reset-password", (req, res) => {
   res.render("index", resetPassword);

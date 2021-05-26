@@ -4,7 +4,9 @@ const cors = require("cors");
 const ejs = require("ejs");
 const path = require("path");
 const bodyParser = require("body-parser");
+const dotenv = require('dotenv');
 
+dotenv.config();
 const router = require("./routers/router");
 
 const app = express();
