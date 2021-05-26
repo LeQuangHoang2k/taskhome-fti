@@ -10,6 +10,8 @@ const login = async (req, res) => {
     return res.json({ message: "No input or content lenght < 5" });
 
   //check db
+  const { accountInfor } = await getInforAccount(req.body);
+
   if (await !checkExistAccount(req.body))
     return res.json({ message: "Account not existed" });
 
@@ -17,17 +19,10 @@ const login = async (req, res) => {
     return res.json({ message: "Account not match" });
 
   //main
-
-  const token = jwt.sign(
-    { username: req.body.username, password: req.body.password },
-    process.env.KEY,
-    {
-      expiresIn: "7d",
-    }
-  );
+  const { token } =await generateToken(accountInfor);
 
   //res
-  res.json({ message: "success", token });
+  res.json({ message: "success", token, role: accountInfor.AccountRole });
 };
 
 const checkInput = (data) => {
@@ -39,6 +34,23 @@ const checkInput = (data) => {
   }
 
   return bool;
+};
+
+const getInforAccount = async (data) => {
+  let result = null;
+
+  const getResult = (rows) => {
+    result = rows;
+  };
+
+  await conn
+    .promise()
+    .query(`SELECT * FROM Account WHERE username = '${data.username}'`)
+    .then(([rows]) => {
+      getResult(rows);
+    });
+
+  return { accountInfor: result[0] };
 };
 
 const checkExistAccount = async (data) => {
@@ -75,6 +87,12 @@ const checkMatchAccount = async (data) => {
   return await bcrypt.compare(data.password, result[0].PasswordHash);
 };
 
-const loginAccount = async (data) => {};
+const generateToken = async (data) => {
+  const token = await jwt.sign({ data }, process.env.KEY, {
+    expiresIn: "7d",
+  });
+  
+  return { token };
+};
 
 module.exports = login;

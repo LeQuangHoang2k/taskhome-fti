@@ -12,16 +12,16 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
+router.get("/shopping", (req, res) => {
+  res.render("shopping");
+});
+
 router.post("/register", register);
 
 router.post("/login", login);
 
-router.get("/reset-password", (req, res) => {
-  res.render("index", resetPassword);
-});
+router.get("/reset-password", resetPassword);
 
-router.get("/logout", (req, res) => {
-  res.render("index", logout);
-});
+router.post("/logout", logout);
 
 module.exports = router;
