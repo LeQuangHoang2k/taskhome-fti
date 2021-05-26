@@ -5,12 +5,74 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Taskhome</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="icon" href="https://freepngimg.com/thumb/symbol/88546-area-text-symbol-icons-question-mark-computer.png"
+        type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/body.css">
 </head>
 
 <body>
-    <button type="submit" onclick="logout()">Logout</button>
+    <header class="">
+        <button type="submit" class="btn btn-danger" onclick="logout()">Logout</button>
+    </header>
+    <div class="body">
+        <form class="search">
+            <div class="form-group search">
+                <label for="sel1">Select list (select one):</label>
+                <select class="form-control" id="sel1">
+                    <option>Điện thoại</option>
+                    <option>Laptop</option>
+                    <option>Màn hình</option>
+                </select>
+            </div>
+        </form>
+        <div class="display">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mary</td>
+                        <td>Moaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae</td>
+                        <td>mary@example.com</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                    </tr>
+                    <tr>
+                        <td>July</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         if (!localStorage.getItem("token")) window.location.href = "/"
