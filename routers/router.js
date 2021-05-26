@@ -16,6 +16,10 @@ router.get("/shopping", (req, res) => {
   res.render("shopping");
 });
 
+router.get("/admin", (req, res) => {
+  res.render("admin");
+});
+
 router.post("/register", register);
 
 router.post("/login", login);

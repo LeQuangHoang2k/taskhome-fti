@@ -15,11 +15,11 @@ const login = async (req, res) => {
   if (await !checkExistAccount(req.body))
     return res.json({ message: "Account not existed" });
 
-  if ((await checkMatchAccount(req.body)) === false)
+  if ((await checkPasswordAccount(req.body, accountInfor)) === false)
     return res.json({ message: "Account not match" });
 
   //main
-  const { token } =await generateToken(accountInfor);
+  const { token } = await generateToken(accountInfor);
 
   //res
   res.json({ message: "success", token, role: accountInfor.AccountRole });
@@ -70,28 +70,15 @@ const checkExistAccount = async (data) => {
   return result.length === 0 ? false : true;
 };
 
-const checkMatchAccount = async (data) => {
-  let result = null;
-
-  const getResult = (rows) => {
-    result = rows;
-  };
-
-  await conn
-    .promise()
-    .query(`SELECT * FROM Account WHERE username  = '${data.username}'`)
-    .then(([rows]) => {
-      getResult(rows);
-    });
-
-  return await bcrypt.compare(data.password, result[0].PasswordHash);
+const checkPasswordAccount = async (client, db) => {
+  return await bcrypt.compare(client.password, db.PasswordHash);
 };
 
 const generateToken = async (data) => {
   const token = await jwt.sign({ data }, process.env.KEY, {
     expiresIn: "7d",
   });
-  
+
   return { token };
 };
 
