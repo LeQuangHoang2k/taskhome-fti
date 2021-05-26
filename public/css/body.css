@@ -23,7 +23,13 @@ div.display {
   margin: auto;
 }
 
+img.image {
+  width: 100px;
+  height: 100px;
+}
+
 tr,
 th {
   text-align: center;
 }
+
