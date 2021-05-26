@@ -14,3 +14,7 @@ header {
 
   padding: 30px;
 }
+
+button.cart {
+    margin-right: 10px;
+}
