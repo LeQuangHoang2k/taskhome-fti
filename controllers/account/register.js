@@ -32,33 +32,25 @@ const checkInput = (data) => {
     console.log("No input or content lenght < 5");
     bool = false;
   }
-  // console.log(
-  //   data,
-  //   data.username.length,
-  //   data.name.length,
-  //   data.password.length
-  // );
 
   return bool;
 };
 
 const checkExistAccount = async (data) => {
-  let bool = null;
+  let result = null;
 
   const getResult = (rows) => {
-    console.log(rows);
-    if (rows === []) bool = false;
+    result = rows;
   };
 
   await conn
     .promise()
-    .query(`SELECT * FROM Account WHERE username = ${data.username}`)
+    .query(`SELECT * FROM Account WHERE username = '${data.username}'`)
     .then(([rows]) => {
       getResult(rows);
-      console.log(rows);
     });
-  console.log(bool);
-  return bool;
+
+  return result.length==0?false:true;
 };
 
 const registerAccount = async (data) => {
