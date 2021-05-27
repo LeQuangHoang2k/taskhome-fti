@@ -6,6 +6,7 @@ const register = require("../controllers/account/register");
 const resetPassword = require("../controllers/account/resetPassword");
 const logout = require("../controllers/account/logout");
 const loadData = require("../controllers/actions/loadData");
+const purchase = require("../controllers/cart/purchase");
 
 console.log("> " + __dirname);
 
@@ -18,6 +19,8 @@ router.get("/shopping", (req, res) => {
 });
 
 router.post("/shopping", loadData);
+
+router.post("/purchase", purchase);
 
 router.get("/admin", (req, res) => {
   res.render("admin");

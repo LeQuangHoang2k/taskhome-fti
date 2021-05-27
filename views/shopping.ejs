@@ -15,6 +15,7 @@
 
 <body>
     <header class="">
+        <button type="button" class="btn cart" data-toggle="modal" data-target="#myModal">Bill</button>
         <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#myModal">Cart</button>
         <button type="submit" class="btn btn-danger" onclick="logout()">Logout</button>
 
@@ -74,7 +75,8 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" data-dismiss="modal">Buy</button>
+                        <button type="submit" class="btn btn-success" data-dismiss="modal"
+                            onclick="purchase()">Purchase</button>
                     </div>
                 </div>
 
@@ -272,6 +274,19 @@
 
             carts.splice(index, 1)
             updateCartDisplay()
+        }
+
+        const purchase = () => {
+            console.log(carts);
+            $.post({
+                url: 'purchase',
+                dataType: 'json',
+                data: { carts, id: localStorage.getItem("id") },
+                success: (res) => {
+                    if (res.message) return alert(res.message)
+                    // displayProduct(res.productInfor)
+                }
+            });
         }
 
 

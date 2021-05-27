@@ -22,7 +22,12 @@ const login = async (req, res) => {
   const { token } = await generateToken(accountInfor);
 
   //res
-  res.json({ message: "success", token, role: accountInfor.AccountRole });
+  res.json({
+    message: "success",
+    token,
+    role: accountInfor.AccountRole,
+    id: accountInfor.AccountId,
+  });
 };
 
 const checkInput = (data) => {

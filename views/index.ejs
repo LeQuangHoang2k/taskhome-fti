@@ -140,7 +140,7 @@
                     success: (res) => {
                         $("#serverResponse").text(res.message);
                         if (res.message !== "success") return
-                        saveToken(res.token)
+                        saveToken(res.token, res.id)
                         resetForm("#formLogin")
                         redirectAccount(res.role)
                         // window.location.href = "/shopping"
@@ -168,8 +168,9 @@
                 });
             });
 
-            const saveToken = (token) => {
+            const saveToken = (token, id) => {
                 localStorage.setItem("token", token)
+                localStorage.setItem("id", id)
             }
             const redirectAccount = (role) => {
                 if (role === "user") window.location.href = "/shopping"
