@@ -57,7 +57,7 @@
                                     <td>x1</td>
                                     <th>1.000.000đ</th>
                                 </tr> -->
-                                <tr>
+                                <!-- <tr>
                                     <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
@@ -69,13 +69,13 @@
                                     <td></td>
                                     <th>Total :</th>
                                     <th>10.000.000đ</th>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+                        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-success" data-dismiss="modal">Buy</button>
                     </div>
                 </div>
 
@@ -200,35 +200,60 @@
         var listOrder = null
         function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
             console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
-            listOrder = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount }
+            listOrder = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum: 1 }
             updateCartList()
             updateCartDisplay()
         }
 
         const updateCartList = () => {
+            if (carts.some((item) => item.ProductName === listOrder.ProductName)) return updateAmountDuplicate()
             carts[carts.length] = listOrder
+        }
+
+        const updateAmountDuplicate = () => {
+            console.log("tăng số lượng lên 1");
+
+            const index = carts.findIndex((item) => item.ProductName === listOrder.ProductName)
+            console.log("vị trí trùng là : ", index);
+            carts[index].sum += 1
+            console.log(carts[index]);
         }
 
         const updateCartDisplay = () => {
             console.log(carts);
 
+            var total = 0
+
             $("#cartBody").html(``);
 
             $.each(carts, function (index, value) {
-                const { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount } = value
+                const { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum } = value
 
-
+                const productPriceVN = ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+                const totalPriceVN = (ProductPrice * sum).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+                total += (ProductPrice * sum)
                 var html = `<tr>
                     <td id="cartName">${ProductName}</td>
-                    <td id="cartPrice">${ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
-                    <td id="cartAmount">x1</td>
-                    <th id="cartTotalPrice">1.000.000đ</th>
-                    <td><button type="button" class="btn btn-danger" onclick="addToCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}')">Delete</button></td>
+                    <td id="cartPrice">${productPriceVN}</td>
+                    <td id="cartAmount">x${sum}</td>
+                    <th id="cartTotalPrice">${totalPriceVN}</th>
+                    <td><button type="button" class="btn btn-danger" onclick="addToCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Delete</button></td>
                 </tr>`
 
                 console.log(value);
                 $("#cartBody").prepend(html);
             })
+
+            console.log("total", total);
+
+            var html2 = `<tr>
+                <td></td>
+                <td></td>
+                <th>Total :</th>
+                <th>${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</th>
+            </tr>`
+
+            $("#cartBody").append(html2);
         }
     </script>
 </body>
