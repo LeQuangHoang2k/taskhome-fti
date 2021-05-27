@@ -83,11 +83,11 @@
     <div class="body">
         <form class="search">
             <div class="form-group search">
-                <label for="sel1">Select list (select one):</label>
-                <select class="form-control" id="sel1">
-                    <option>Điện thoại</option>
-                    <option>Laptop</option>
-                    <option>Màn hình</option>
+                <label for="selectProduct">Select list (select one):</label>
+                <select class="form-control" id="selectProduct">
+                    <option value="phone">Điện thoại</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="screen">Màn hình</option>
                 </select>
             </div>
         </form>
@@ -141,13 +141,23 @@
 
         $(document).ready(() => {
             loadData();
+
+            $('#selectProduct').change(function () {
+                loadData()
+            });
         })
 
         const loadData = () => {
+            var values = $('#selectProduct :selected').val();
+
+            console.log(values);
+
             $.post({
                 url: 'shopping',
                 dataType: 'json',
+                data: { values },
                 success: (res) => {
+                    if (res.message) return alert(res.message)
                     displayProduct(res.productInfor)
                 }
             });
@@ -165,24 +175,21 @@
         const displayProduct = (productInfor) => {
             console.log(productInfor);
 
+            $("#productBody").html(``);
             $.each(productInfor, function (index, value) {
                 var html = `<tr class="product">
                         <td id="productId">${value.ProductId}</td>
                         <td id="productName">${value.ProductName}</td>
-                        <td id="productImage"><img class="image" src="/img/phone/${value.ProductImage}.png" alt="hình" /></td>
+                        <td id="productImage"><img class="image" src="/img/${value.ProductType}/${value.ProductImage}.png" alt="hình" /></td>
                         <td id="productPrice">${value.ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
                         <td id="productAmount">${value.ProductAmount}</td>
                         <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
                     </tr>`
                 $("#productBody").append(html);
             });
-            // document.getElementsByClassName("productId").innerText = item.ProductId
-            // document.getElementsByClassName("productName").innerText = item.ProductName
-            // document.getElementsByClassName("productImage").innerText = item.ProductImage
-            // document.getElementsByClassName("productPrice").innerText = item.ProductPrice
-            // document.getElementsByClassName("productAmount").innerText = item.ProductAmount
-            // })
         }
+
+
     </script>
 </body>
 

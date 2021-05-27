@@ -3,14 +3,32 @@ const { conn } = require("../../data/connect");
 const loadData = async (req, res) => {
   console.log("> " + __dirname + "\\loadData.js");
 
-  const { productInfor } = await queryProduct();
+  //input
+  if (await !checkInput(req.body))
+    return res.json({ message: "Dont have type product" });
+  console.log(req.body);
+  //checkdb
 
-  console.log("...",await productInfor);
+  //main
+  const { productInfor } = await queryProduct(req.body.values);
+
+  console.log("...", await productInfor);
 
   res.json({ productInfor });
 };
 
-const queryProduct = async () => {
+const checkInput = (data) => {
+  var bool = true;
+
+  if (!data || !data.values) {
+    console.log("dont have values < 5");
+    bool = false;
+  }
+
+  return bool;
+};
+
+const queryProduct = async (values) => {
   console.log("queryProduct...");
 
   let result = null;
@@ -21,7 +39,7 @@ const queryProduct = async () => {
 
   await conn
     .promise()
-    .query(`SELECT * FROM Product WHERE ProductType = 'phone'`)
+    .query(`SELECT * FROM Product WHERE ProductType = '${values}'`)
     .then(([rows]) => {
       getResult(rows);
     });
