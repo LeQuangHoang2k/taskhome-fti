@@ -74,7 +74,6 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
                         <button type="submit" class="btn btn-success" data-dismiss="modal">Buy</button>
                     </div>
                 </div>
@@ -235,9 +234,12 @@
                 var html = `<tr>
                     <td id="cartName">${ProductName}</td>
                     <td id="cartPrice">${productPriceVN}</td>
-                    <td id="cartAmount">x${sum}</td>
+                    <td id="cartAmount">${sum}</td>
                     <th id="cartTotalPrice">${totalPriceVN}</th>
-                    <td><button type="button" class="btn btn-danger" onclick="addToCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Delete</button></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="changeSum('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Amount</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Delete</button>
+                    </td>
                 </tr>`
 
                 console.log(value);
@@ -250,11 +252,29 @@
                 <td></td>
                 <td></td>
                 <th>Total :</th>
-                <th>${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</th>
+                <th id="total">${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</th>
             </tr>`
 
             $("#cartBody").append(html2);
         }
+
+        function changeSum(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum) {
+            var x = prompt("Please enter your name", 1);
+            const index = carts.findIndex((item) => item.ProductName === ProductName)
+
+            if (!x) x = 0
+            carts[index].sum = x
+            updateCartDisplay()
+        }
+
+        function deleteCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum) {
+            const index = carts.findIndex((item) => item.ProductName === ProductName)
+
+            carts.splice(index, 1)
+            updateCartDisplay()
+        }
+
+
     </script>
 </body>
 
