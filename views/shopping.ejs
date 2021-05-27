@@ -176,20 +176,27 @@
             console.log(productInfor);
 
             $("#productBody").html(``);
+
             $.each(productInfor, function (index, value) {
+                const { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount } = value
+
                 var html = `<tr class="product">
-                        <td id="productId">${value.ProductId}</td>
-                        <td id="productName">${value.ProductName}</td>
-                        <td id="productImage"><img class="image" src="/img/${value.ProductType}/${value.ProductImage}.png" alt="hình" /></td>
-                        <td id="productPrice">${value.ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
-                        <td id="productAmount">${value.ProductAmount}</td>
-                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                        <td id="productId">${ProductId}</td>
+                        <td id="productName">${ProductName}</td>
+                        <td id="productImage"><img class="image" src="/img/${ProductType}/${ProductImage}.png" alt="hình" /></td>
+                        <td id="productPrice">${ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
+                        <td id="productAmount">${ProductAmount}</td>
+                        <td><button type="button" class="btn btn-warning" onclick="addToCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}')">Add to Cart</button></td>
                     </tr>`
+
+                console.log(value);
                 $("#productBody").append(html);
             });
         }
 
-
+        function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
+            console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
+        }
     </script>
 </body>
 
