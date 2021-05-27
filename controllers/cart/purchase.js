@@ -9,6 +9,8 @@ const purchase = async (req, res) => {
   console.log(req.body);
 
   //checkdb
+  if (await !updateAmountProduct(carts))
+    return res.json({ message: "Cant not update product" });
 
   //main
   const { result } = await saveCart(req.body.carts, req.body.id);
@@ -29,13 +31,22 @@ const checkInput = (data) => {
   return bool;
 };
 
+const updateAmountProduct = async (carts) => {
+  //select id get dbamount
+  //compare dbmount and amount carts
+  //if(false) return res
+  //save (dbmount- carts) where id
+
+  return true;
+};
+
 const saveCart = async (carts, id) => {
   let result = null;
 
   const getResult = (rows) => {
     result = rows;
   };
-  
+
   await conn
     .promise()
     .query(`INSERT INTO Cart (AccountId) VALUES (${id});`)
