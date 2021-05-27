@@ -15,7 +15,8 @@
 
 <body>
     <header class="">
-        <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#myModal">Cart</button>
+        <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#myModal"
+            onclick="testx()">Cart</button>
         <button type="submit" class="btn btn-danger" onclick="logout()">Logout</button>
 
         <div class="modal fade" id="myModal" role="dialog">
@@ -193,9 +194,16 @@
                 $("#productBody").append(html);
             });
         }
-
+        var test
         function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
             console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
+            const listCart = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount }
+            test = listCart
+            return listCart
+        }
+
+        const testx = () => {
+            console.log(test);
         }
     </script>
 </body>
