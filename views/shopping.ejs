@@ -175,6 +175,7 @@
             var cart = document.getElementById("cart")
         }
 
+
         const displayProduct = (productInfor) => {
             console.log(productInfor);
 
@@ -202,21 +203,23 @@
         function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
             console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
             listOrder = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum: 1 }
-            updateCartList()
+            updateCartList(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount)
             updateCartDisplay()
         }
 
-        const updateCartList = () => {
-            if (carts.some((item) => item.ProductName === listOrder.ProductName)) return updateAmountDuplicate()
+        const updateCartList = (ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) => {
+            if (carts.some((item) => item.ProductName === listOrder.ProductName)) return updateAmountDuplicate(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount)
             carts[carts.length] = listOrder
         }
 
-        const updateAmountDuplicate = () => {
+        const updateAmountDuplicate = (ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) => {
             console.log("tăng số lượng lên 1");
 
             const index = carts.findIndex((item) => item.ProductName === listOrder.ProductName)
             console.log("vị trí trùng là : ", index);
-            carts[index].sum += 1
+            if (parseInt(carts[index].sum) - parseInt(ProductAmount) <= 0) return alert("không đủ hàng để mua")
+            carts[index].sum = parseInt(carts[index].sum) + 1
+
             console.log(carts[index]);
         }
 
@@ -265,6 +268,8 @@
             const index = carts.findIndex((item) => item.ProductName === ProductName)
 
             if (!x) x = 0
+            if (parseInt(x) > parseInt(ProductAmount)) return alert("Không đủ hàng để mua")
+            console.log(ProductAmount, sum);
             carts[index].sum = x
             updateCartDisplay()
         }
@@ -278,6 +283,9 @@
 
         const purchase = () => {
             console.log(carts);
+
+            if (!carts || carts.length === 0) return alert("Bạn chưa mua hàng")
+
             $.post({
                 url: 'purchase',
                 dataType: 'json',

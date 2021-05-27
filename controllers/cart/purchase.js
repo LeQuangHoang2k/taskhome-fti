@@ -35,7 +35,7 @@ const saveCart = async (carts, id) => {
   const getResult = (rows) => {
     result = rows;
   };
-
+  
   await conn
     .promise()
     .query(`INSERT INTO Cart (AccountId) VALUES (${id});`)
