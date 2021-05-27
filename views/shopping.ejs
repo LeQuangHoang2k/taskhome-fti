@@ -15,8 +15,7 @@
 
 <body>
     <header class="">
-        <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#myModal"
-            onclick="testx()">Cart</button>
+        <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#myModal">Cart</button>
         <button type="submit" class="btn btn-danger" onclick="logout()">Logout</button>
 
         <div class="modal fade" id="myModal" role="dialog">
@@ -36,15 +35,16 @@
                                     <th>Price</th>
                                     <th>Amount</th>
                                     <th>Total Price</th>
+                                    <th>Options</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="cartBody">
+                                <!-- <tr>
                                     <td id="cartName">Samsung j2</td>
                                     <td id="cartPrice">1.000.000đ</td>
                                     <td id="cartAmount">x1</td>
                                     <th id="cartTotalPrice">1.000.000đ</th>
-                                </tr>
+                                </tr> -->
                                 <!-- <tr>
                                     <td>Samsung j2</td>
                                     <td>1.000.000đ</td>
@@ -58,6 +58,7 @@
                                     <th>1.000.000đ</th>
                                 </tr> -->
                                 <tr>
+                                    <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
@@ -194,16 +195,40 @@
                 $("#productBody").append(html);
             });
         }
-        var test
+
+        var carts = []
+        var listOrder = null
         function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
             console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
-            const listCart = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount }
-            test = listCart
-            return listCart
+            listOrder = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount }
+            updateCartList()
+            updateCartDisplay()
         }
 
-        const testx = () => {
-            console.log(test);
+        const updateCartList = () => {
+            carts[carts.length] = listOrder
+        }
+
+        const updateCartDisplay = () => {
+            console.log(carts);
+
+            $("#cartBody").html(``);
+
+            $.each(carts, function (index, value) {
+                const { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount } = value
+
+
+                var html = `<tr>
+                    <td id="cartName">${ProductName}</td>
+                    <td id="cartPrice">${ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
+                    <td id="cartAmount">x1</td>
+                    <th id="cartTotalPrice">1.000.000đ</th>
+                    <td><button type="button" class="btn btn-danger" onclick="addToCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}')">Delete</button></td>
+                </tr>`
+
+                console.log(value);
+                $("#cartBody").prepend(html);
+            })
         }
     </script>
 </body>
