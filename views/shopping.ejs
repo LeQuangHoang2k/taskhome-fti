@@ -199,16 +199,33 @@
         }
 
         const loadBill = () => {
-            alert("loadBill")
-            return
             $.post({
-                url: 'showBill',
+                url: 'loadBill',
                 dataType: 'json',
-                // data: { values },
+                data: { accountId: localStorage.getItem("id") },
                 success: (res) => {
-                    if (res.message) return alert(res.message)
-                    // displayProduct(res.productInfor)
+                    if (!res.message === "success") return alert(res.message)
+                    // console.log(res.listBill);
+                    displayListBill(res.listBill)
                 }
+            });
+        }
+
+        const displayListBill = (listBill) => {
+            console.log(listBill);
+
+            $("#billBody").html(``);
+
+            $.each(listBill, function (index, value) {
+                const { CartId } = value
+
+                var html = `<tr class="bill">
+                        <td id="billId">${CartId}</td>
+                        <td><button type="button" class="btn btn-warning" onclick="showBillDetail('${CartId}')">View</button></td>
+                    </tr>`
+
+                // console.log(value);
+                $("#billBody").prepend(html);
             });
         }
 

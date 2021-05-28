@@ -3,48 +3,92 @@ const { conn } = require("../../data/connect");
 const loadBill = async (req, res) => {
   console.log("> " + __dirname + "\\loadBill.js");
 
-  //   //input
-  //   if (await !checkInput(req.body))
-  //     return res.json({ message: "Dont have type product" });
-  //   console.log(req.body);
-  //   //checkdb
+  //input
+  if (await !checkInput(req.body))
+    return res.json({ message: "Dont have type product" });
+  console.log(req.body);
 
-  //   //main
-  //   const { productInfor } = await queryProduct(req.body.values);
+  //checkdb
+  if (await !checkExistAccount(req.body))
+    return res.json({ message: "Account doesn't existed" });
 
-  //   console.log("...", await productInfor);
+  if (await !checkExistBillAccount(req.body))
+    return res.json({ message: "Welcome new user" });
 
-  //   res.json({ productInfor });
-  // };
+  console.log("ok");
 
-  // const checkInput = (data) => {
-  //   var bool = true;
+  //main
+  const { listBill } = await getAllBillAccount(req.body);
+  console.log("listBill", listBill);
 
-  //   if (!data || !data.values) {
-  //     console.log("dont have values < 5");
-  //     bool = false;
-  //   }
+  res.json({
+    message: "success",
+    listBill,
+  });
+};
 
-  //   return bool;
-  // };
+const checkInput = (data) => {
+  var bool = true;
 
-  // const queryProduct = async (values) => {
-  //   console.log("queryProduct...");
+  if (!data || !data.accountId) {
+    console.log("dont have account id");
+    bool = false;
+  }
 
-  //   let result = null;
+  return bool;
+};
 
-  //   const getResult = (rows) => {
-  //     result = rows;
-  //   };
+const checkExistAccount = async (data) => {
+  let result = null;
 
-  //   await conn
-  //     .promise()
-  //     .query(`SELECT * FROM Product WHERE ProductType = '${values}'`)
-  //     .then(([rows]) => {
-  //       getResult(rows);
-  //     });
-  //   //   console.log(result);
-  //   return { productInfor: result };
+  const getResult = (rows) => {
+    result = rows;
+  };
+
+  await conn
+    .promise()
+    .query(
+      `SELECT * FROM Account WHERE AccountId = ${parseInt(data.accountId)}`
+    )
+    .then(([rows]) => {
+      getResult(rows);
+    });
+
+  return result.length == 0 ? false : true;
+};
+
+const checkExistBillAccount = async (data) => {
+  let result = null;
+
+  const getResult = (rows) => {
+    result = rows;
+  };
+
+  await conn
+    .promise()
+    .query(`SELECT * FROM Cart WHERE AccountId = ${parseInt(data.accountId)}`)
+    .then(([rows]) => {
+      getResult(rows);
+    });
+
+  return result.length == 0 ? false : true;
+};
+
+const getAllBillAccount = async (data) => {
+  let listBill = null;
+
+  const getResult = (rows) => {
+    listBill = rows;
+  };
+
+  await conn
+    .promise()
+    .query(`SELECT * FROM Cart WHERE AccountId = ${parseInt(data.accountId)}`)
+    .then(([rows]) => {
+      getResult(rows);
+    });
+
+  return { listBill };
 };
 
 module.exports = loadBill;
