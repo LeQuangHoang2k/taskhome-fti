@@ -217,10 +217,10 @@
 
             const index = carts.findIndex((item) => item.ProductName === listOrder.ProductName)
             console.log("vị trí trùng là : ", index);
-            if (parseInt(carts[index].sum) - parseInt(ProductAmount) <= 0) return alert("không đủ hàng để mua")
+            if (parseInt(carts[index].ProductAmount) + 1 > parseInt(ProductAmount)) return alert("không đủ hàng để mua")
             carts[index].sum = parseInt(carts[index].sum) + 1
 
-            console.log(carts[index]);
+            console.log("aaaa", carts[index]);
         }
 
         const updateCartDisplay = () => {
@@ -242,7 +242,7 @@
                     <td id="cartAmount">${sum}</td>
                     <th id="cartTotalPrice">${totalPriceVN}</th>
                     <td>
-                        <button type="button" class="btn btn-danger" onclick="changeSum('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Amount</button>
+                        <button type="button" class="btn btn-danger" onclick="changeSum('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Edit</button>
                         <button type="button" class="btn btn-danger" onclick="deleteCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Delete</button>
                     </td>
                 </tr>`
