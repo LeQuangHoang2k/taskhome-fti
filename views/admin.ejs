@@ -22,6 +22,36 @@
         <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#modalCart">Cart</button>
         <button type="submit" class="btn btn-danger" onclick="logout()">Logout</button>
 
+        <div id="modalUpdateAmount" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Update Amount Product</h4>
+                    </div>
+                    <form class="modal-body" id="formChangeAmount">
+                        <div class="form-group">
+                            <label for="id">ID Product :</label>
+                            <input type="text" class="form-control" id="idProduct" placeholder="Enter id product"
+                                name="idProduct">
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Role:</label>
+                            <input type="text" class="form-control" id="amount" placeholder="Enter amount"
+                                name="amount">
+                        </div>
+                        <button type="submit" id="changeAmountProduct" class="btn btn-default"
+                            data-dismiss="modal">Change</button>
+                    </form>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <div id="modalRole" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
@@ -136,32 +166,7 @@
                         <th>Options</th>
                     </tr>
                 </thead>
-                <tbody id="productBody">
-                    <!-- <tr class="product">
-                        <td id="productId">1811062123</td>
-                        <td id="productName">Samsung galaxy j2</td>
-                        <td id="productImage"><img class="image" src="/img/phone/samsung.png" alt="hình" /></td>
-                        <td id="productPrice">10.000.000 VND</td>
-                        <td id="productAmount">300</td>
-                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
-                    </tr> -->
-                    <!-- <tr>
-                        <td>Mary</td>
-                        <td>Moaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae</td>
-                        <td>mary@example.com</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
-                    </tr> -->
-                </tbody>
+                <tbody id="productBody"></tbody>
             </table>
         </div>
     </div>
@@ -200,6 +205,27 @@
                         if (res.message !== "success") return
                         alert(res.message)
                         // window.location.reload()
+                    }
+                });
+            })
+
+            $("#changeAmountProduct").click((event) => {
+                event.preventDefault()
+
+                if (!$("#idProduct").val() || $("#idProduct").val().length < 0) return alert("id ko hợp lê")
+                console.log($("#amount").val());
+                if (!$("#amount").val() || $("#amount").val().length <= 0 || !Number.isInteger(parseInt($("#amount").val())) || parseInt($("#amount").val()) < 0) return alert("số lượng ko hợp lê")
+
+                console.log($('#formChangeAmount').serialize());
+                // return
+                $.post({
+                    url: 'change-amount',
+                    dataType: 'json',
+                    data: $('#formChangeAmount').serialize(),
+                    success: (res) => {
+                        if (res.message !== "success") return
+                        alert(res.message)
+                        window.location.reload()
                     }
                 });
             })

@@ -9,6 +9,7 @@ const loadProduct = require("../controllers/actions/loadProduct");
 const purchase = require("../controllers/cart/purchase");
 const loadBill = require("../controllers/actions/loadBill");
 const changeRole = require("../controllers/account/admin/changeRole");
+const changeAmount = require("../controllers/account/admin/changeAmount");
 
 console.log("> " + __dirname);
 
@@ -31,6 +32,7 @@ router.get("/admin", (req, res) => {
 });
 
 router.post("/change-role", changeRole);
+router.post("/change-amount", changeAmount);
 
 router.post("/register", register);
 
