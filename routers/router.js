@@ -8,6 +8,7 @@ const logout = require("../controllers/account/logout");
 const loadProduct = require("../controllers/actions/loadProduct");
 const purchase = require("../controllers/cart/purchase");
 const loadBill = require("../controllers/actions/loadBill");
+const changeRole = require("../controllers/account/admin/changeRole");
 
 console.log("> " + __dirname);
 
@@ -28,6 +29,8 @@ router.post("/purchase", purchase);
 router.get("/admin", (req, res) => {
   res.render("admin");
 });
+
+router.post("/change-role", changeRole);
 
 router.post("/register", register);
 
