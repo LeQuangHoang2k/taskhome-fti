@@ -217,7 +217,8 @@
 
             const index = carts.findIndex((item) => item.ProductName === listOrder.ProductName)
             console.log("vị trí trùng là : ", index);
-            if (parseInt(carts[index].ProductAmount) + 1 > parseInt(ProductAmount)) return alert("không đủ hàng để mua")
+            console.log(parseInt(carts[index].ProductAmount), parseInt(ProductAmount));
+            if (parseInt(carts[index].sum) + 1 > parseInt(ProductAmount)) return alert("không đủ hàng để mua")
             carts[index].sum = parseInt(carts[index].sum) + 1
 
             console.log("aaaa", carts[index]);

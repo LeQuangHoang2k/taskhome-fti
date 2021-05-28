@@ -33,6 +33,7 @@ const checkInput = (data) => {
 
 const updateAmountProduct = async (carts) => {
   //select id get dbamount
+  console.log("cart", carts);
   //compare dbmount and amount carts
   //if(false) return res
   //save (dbmount- carts) where id
