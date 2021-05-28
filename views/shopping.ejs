@@ -212,31 +212,35 @@
         }
 
         const displayListBill = (listBill, listBillDetail) => {
-            console.log(listBillDetail);
+            // console.log(listBillDetail);
 
             $("#billBody").html(``);
 
-            $.each(listBillDetail, function (index, value) {
-                const { CartId, ProductId, Amount } = value
-
+            $.each(listBill, function (index, value) {
+                const { CartId } = value
+                console.log(value);
                 var html = `<tr class="bill">
-                        <td id="billId">${CartId}</td>
-                        <td>
-                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myBillDetail">Detail</button>
-                           
-                            <div id="myBillDetail" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <p>Cart ID : ${CartId}</p>
-                                            <p>Product ID : ${ProductId}</p>
-                                            <p>Amount : ${Amount}</p>
-                                        </div>
+                                <td id="billId">${CartId}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myBillDetail">Detail</button>
+                                
+                                    <div id="myBillDetail" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Modal Header</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <p>Cart ID : ${CartId}</p>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>   
                                     </div>
-                                </div>   
-                            </div>
-                        </td>
-                    </tr>`
+                                </td>
+                            </tr>`
 
                 // console.log(value);
                 $("#billBody").prepend(html);
@@ -279,6 +283,7 @@
         var listOrder = null
         function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
             console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
+            if (parseInt(ProductAmount) <= 0) return alert("Hết hàng")
             listOrder = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum: 1 }
             updateCartList(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount)
             updateCartDisplay()
