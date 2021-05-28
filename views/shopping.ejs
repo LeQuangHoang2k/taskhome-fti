@@ -292,8 +292,9 @@
                 dataType: 'json',
                 data: { carts, id: localStorage.getItem("id") },
                 success: (res) => {
-                    if (res.message) return alert(res.message)
-                    // displayProduct(res.productInfor)
+                    if (!res.message === "success") return alert(res.message)
+                    alert("Your trade is " + res.message)
+                    window.location.reload()
                 }
             });
         }

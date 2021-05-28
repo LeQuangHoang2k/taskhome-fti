@@ -17,8 +17,8 @@ const purchase = async (req, res) => {
   const { result } = await saveCart(req.body.carts, req.body.id);
   await saveOrderDetail(req.body.carts, result.insertId);
 
-  //   console.log("....aa", result.insertId);
   //res
+  res.json({ message: "success" });
 };
 
 const checkInput = (data) => {
