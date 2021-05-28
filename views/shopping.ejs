@@ -206,22 +206,36 @@
                 success: (res) => {
                     if (!res.message === "success") return alert(res.message)
                     // console.log(res.listBill);
-                    displayListBill(res.listBill)
+                    displayListBill(res.listBill, res.listBillDetail)
                 }
             });
         }
 
-        const displayListBill = (listBill) => {
-            console.log(listBill);
+        const displayListBill = (listBill, listBillDetail) => {
+            console.log(listBillDetail);
 
             $("#billBody").html(``);
 
-            $.each(listBill, function (index, value) {
-                const { CartId } = value
+            $.each(listBillDetail, function (index, value) {
+                const { CartId, ProductId, Amount } = value
 
                 var html = `<tr class="bill">
                         <td id="billId">${CartId}</td>
-                        <td><button type="button" class="btn btn-warning" onclick="showBillDetail('${CartId}')">View</button></td>
+                        <td>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myBillDetail">Detail</button>
+                           
+                            <div id="myBillDetail" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p>Cart ID : ${CartId}</p>
+                                            <p>Product ID : ${ProductId}</p>
+                                            <p>Amount : ${Amount}</p>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        </td>
                     </tr>`
 
                 // console.log(value);

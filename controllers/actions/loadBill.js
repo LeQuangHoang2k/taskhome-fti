@@ -19,11 +19,16 @@ const loadBill = async (req, res) => {
 
   //main
   const { listBill } = await getAllBillAccount(req.body);
-  console.log("listBill", listBill);
+  const { listBillId } = await getListBillId(listBill);
+  //   console.log(listBillId);
+  const { listBillDetail } = await getAllBillDetailAccount(listBillId);
+  //   console.log(listBillDetail);
+  //   console.log("listBill", listBill);
 
   res.json({
     message: "success",
     listBill,
+    listBillDetail,
   });
 };
 
@@ -89,6 +94,36 @@ const getAllBillAccount = async (data) => {
     });
 
   return { listBill };
+};
+
+const getListBillId = (data) => {
+  var listBillId = [];
+
+  data.forEach((item) => {
+    listBillId.push(item.CartId);
+  });
+
+  return { listBillId };
+};
+
+const getAllBillDetailAccount = async (listBillId) => {
+  console.log("xx", listBillId);
+
+  let listBillDetail = null;
+
+  const getListBillDetail = (rows) => {
+    listBillDetail = rows;
+    // console.log(rows);
+  };
+
+  // `SELECT * FROM answer WHERE id_question in (SELECT t.id FROM (SELECT id FROM question ORDER BY rand() LIMIT 10 ) as t)`
+  await conn
+    .promise()
+    .query(`SELECT * FROM OrderDetail WHERE CartId IN (${listBillId})`)
+    .then(([rows]) => {
+      getListBillDetail(rows);
+    });
+  return { listBillDetail };
 };
 
 module.exports = loadBill;
