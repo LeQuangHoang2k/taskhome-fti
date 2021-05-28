@@ -207,6 +207,7 @@
                     if (!res.message === "success") return alert(res.message)
                     // console.log(res.listBill);
                     displayListBill(res.listBill, res.listBillDetail)
+                    console.log(res.listBillDetail);
                 }
             });
         }
@@ -224,7 +225,7 @@
                 var html = `<tr class="bill">
                                 <td id="billId">${CartId}</td>
                                 <td>
-                                    <button type="button" class="btn btn-warning" onclick="showBillDetail('${CartId}')">Detail</button>
+                                    <button type="button" class="btn btn-warning" onclick="showBillDetail(${CartId})">Detail</button>
                                 </td>
                             </tr>`
 
@@ -236,7 +237,7 @@
             console.log(cartId);
             console.log(listBillDetailGlobal);
             $("#productBody").html(``);
-            const filter = listBillDetailGlobal.filter((item) => item.CartId == cartId)
+            const filter = listBillDetailGlobal.filter((item) => item.CartId === parseInt(cartId))
             console.log(filter);
             $.each(filter, function (index, value) {
                 const { CartId, ProductId, Amount } = value
