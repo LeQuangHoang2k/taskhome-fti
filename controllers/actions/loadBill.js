@@ -19,6 +19,7 @@ const loadBill = async (req, res) => {
 
   //main
   const { listBill } = await getAllBillAccount(req.body);
+  if(!listBill) return "chưa mua đồ"
   const { listBillId } = await getListBillId(listBill);
   //   console.log(listBillId);
   const { listBillDetail } = await getAllBillDetailAccount(listBillId);
@@ -119,7 +120,7 @@ const getAllBillDetailAccount = async (listBillId) => {
   // `SELECT * FROM answer WHERE id_question in (SELECT t.id FROM (SELECT id FROM question ORDER BY rand() LIMIT 10 ) as t)`
   await conn
     .promise()
-    .query(`SELECT * FROM OrderDetail WHERE CartId IN (${listBillId})`)
+    .query(`SELECT * FROM OrderDetail WHERE CartId IN ('${listBillId}')`)
     .then(([rows]) => {
       getListBillDetail(rows);
     });

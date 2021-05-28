@@ -1,12 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Taskhome</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="icon" href="https://freepngimg.com/thumb/symbol/88546-area-text-symbol-icons-question-mark-computer.png"
+        type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/body.css">
 </head>
+
 <body>
-    
+    <header class="">
+        <button type="button" class="btn cart">Update product</button>
+        <button type="button" class="btn cart">Change User Role</button>
+        <button type="button" class="btn cart" data-toggle="modal" data-target="#modalBill">Bill</button>
+        <button type="button" class="btn btn-info cart" data-toggle="modal" data-target="#modalCart">Cart</button>
+        <button type="submit" class="btn btn-danger" onclick="logout()">Logout</button>
+
+        <div class="modal fade" id="modalCart" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cart</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Total Price</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartBody">
+                                <!-- <tr>
+                                    <td id="cartName">Samsung j2</td>
+                                    <td id="cartPrice">1.000.000đ</td>
+                                    <td id="cartAmount">x1</td>
+                                    <th id="cartTotalPrice">1.000.000đ</th>
+                                </tr> -->
+                                <!-- <tr>
+                                    <td>Samsung j2</td>
+                                    <td>1.000.000đ</td>
+                                    <td>x1</td>
+                                    <th>1.000.000đ</th>
+                                </tr>
+                                <tr>
+                                    <td>Samsung j2</td>
+                                    <td>1.000.000đ</td>
+                                    <td>x1</td>
+                                    <th>1.000.000đ</th>
+                                </tr> -->
+                                <!-- <tr>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <th>Total :</th>
+                                    <th>10.000.000đ</th>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" data-dismiss="modal"
+                            onclick="purchase()">Purchase</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="modalBill" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Bill</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Bill id</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id="billBody"></tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" data-dismiss="modal"
+                            onclick="purchase()">Purchase</button>
+                    </div> -->
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="body">
+        <form class="search">
+            <div class="form-group search">
+                <label for="selectProduct">Select list (select one):</label>
+                <select class="form-control" id="selectProduct">
+                    <option value="phone">Điện thoại</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="screen">Màn hình</option>
+                </select>
+            </div>
+        </form>
+        <div class="display">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody id="productBody">
+                    <!-- <tr class="product">
+                        <td id="productId">1811062123</td>
+                        <td id="productName">Samsung galaxy j2</td>
+                        <td id="productImage"><img class="image" src="/img/phone/samsung.png" alt="hình" /></td>
+                        <td id="productPrice">10.000.000 VND</td>
+                        <td id="productAmount">300</td>
+                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                    </tr> -->
+                    <!-- <tr>
+                        <td>Mary</td>
+                        <td>Moaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae</td>
+                        <td>mary@example.com</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                    </tr>
+                    <tr>
+                        <td>July</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                        <td><button type="button" class="btn btn-warning">Add to Cart</button></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        if (!localStorage.getItem("token")) window.location.href = "/"
+
+        $(document).ready(() => {
+            loadProduct();
+
+            $('#selectProduct').change(function () {
+                loadProduct()
+            });
+
+            loadBill()
+        })
+
+        const loadProduct = () => {
+            var values = $('#selectProduct :selected').val();
+
+            console.log(values);
+
+            $.post({
+                url: 'loadProduct',
+                dataType: 'json',
+                data: { values },
+                success: (res) => {
+                    if (res.message) return alert(res.message)
+                    displayProduct(res.productInfor)
+                }
+            });
+        }
+
+        const loadBill = () => {
+            $.post({
+                url: 'loadBill',
+                dataType: 'json',
+                data: { accountId: localStorage.getItem("id") },
+                success: (res) => {
+                    if (!res.message === "success") return alert(res.message)
+                    // console.log(res.listBill);
+                    displayListBill(res.listBill, res.listBillDetail)
+                }
+            });
+        }
+        var listBillDetailGlobal = null
+        const displayListBill = (listBill, listBillDetail) => {
+            // console.log(listBillDetail);
+            listBillDetailGlobal = listBillDetail
+
+            // console.log(listBillDetailGlobal);
+            $("#billBody").html(``);
+
+            $.each(listBill, function (index, value) {
+                const { CartId } = value
+
+                var html = `<tr class="bill">
+                                <td id="billId">${CartId}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" onclick="showBillDetail('${CartId}')">Detail</button>
+                                </td>
+                            </tr>`
+
+                $("#billBody").prepend(html);
+            });
+        }
+
+        const showBillDetail = (cartId) => {
+            console.log(cartId);
+            console.log(listBillDetailGlobal);
+            $("#productBody").html(``);
+            const filter = listBillDetailGlobal.filter((item) => item.CartId == cartId)
+            console.log(filter);
+            $.each(filter, function (index, value) {
+                const { CartId, ProductId, Amount } = value
+
+                var html = `
+                            <tbody id="productBody">
+                                <tr class="product">
+                                    <td>Cart ID : ${CartId}</td>
+                                    <th>,</th>
+                                    <td>ProductId : ${ProductId}</td>
+                                    <th>,</th>
+                                    <td>Amount : ${Amount}</td>
+                                </tr>
+                            </tbody>`
+
+                console.log(value);
+                $("#productBody").append(html);
+            });
+        }
+
+        const logout = () => {
+            localStorage.removeItem("token")
+            if (!localStorage.getItem("token")) window.location.href = "/"
+        }
+
+        const showCart = () => {
+            var cart = document.getElementById("cart")
+        }
+
+
+        const displayProduct = (productInfor) => {
+            console.log(productInfor);
+
+            $("#productBody").html(``);
+
+            $.each(productInfor, function (index, value) {
+                const { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount } = value
+
+                var html = `<tr class="product">
+                        <td id="productId">${ProductId}</td>
+                        <td id="productName">${ProductName}</td>
+                        <td id="productImage"><img class="image" src="/img/${ProductType}/${ProductImage}.png" alt="hình" /></td>
+                        <td id="productPrice">${ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
+                        <td id="productAmount">${ProductAmount}</td>
+                        <td><button type="button" class="btn btn-warning" onclick="addToCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}')">Add to Cart</button></td>
+                    </tr>`
+
+                console.log(value);
+                $("#productBody").append(html);
+            });
+        }
+
+        var carts = []
+        var listOrder = null
+        function addToCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) {
+            console.log(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount);
+            if (parseInt(ProductAmount) <= 0) return alert("Hết hàng")
+            listOrder = { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum: 1 }
+            updateCartList(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount)
+            updateCartDisplay()
+        }
+
+        const updateCartList = (ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) => {
+            if (carts.some((item) => item.ProductName === listOrder.ProductName)) return updateAmountDuplicate(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount)
+            carts[carts.length] = listOrder
+        }
+
+        const updateAmountDuplicate = (ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount) => {
+            console.log("tăng số lượng lên 1");
+
+            const index = carts.findIndex((item) => item.ProductName === listOrder.ProductName)
+            console.log("vị trí trùng là : ", index);
+            console.log(parseInt(carts[index].ProductAmount), parseInt(ProductAmount));
+            if (parseInt(carts[index].sum) + 1 > parseInt(ProductAmount)) return alert("không đủ hàng để mua")
+            carts[index].sum = parseInt(carts[index].sum) + 1
+
+            console.log("aaaa", carts[index]);
+        }
+
+        const updateCartDisplay = () => {
+            console.log(carts);
+
+            var total = 0
+
+            $("#cartBody").html(``);
+
+            $.each(carts, function (index, value) {
+                const { ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum } = value
+
+                const productPriceVN = ProductPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+                const totalPriceVN = (ProductPrice * sum).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+                total += (ProductPrice * sum)
+                var html = `<tr>
+                    <td id="cartName">${ProductName}</td>
+                    <td id="cartPrice">${productPriceVN}</td>
+                    <td id="cartAmount">${sum}</td>
+                    <th id="cartTotalPrice">${totalPriceVN}</th>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="changeSum('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCart('${ProductId}','${ProductType}','${ProductName}','${ProductImage}','${ProductPrice}','${ProductAmount}',${sum})">Delete</button>
+                    </td>
+                </tr>`
+
+                console.log(value);
+                $("#cartBody").prepend(html);
+            })
+
+            console.log("total", total);
+
+            var html2 = `<tr>
+                <td></td>
+                <td></td>
+                <th>Total :</th>
+                <th id="total">${total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</th>
+            </tr>`
+
+            $("#cartBody").append(html2);
+        }
+
+        function changeSum(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum) {
+            var x = prompt("Please enter your name", 1);
+            const index = carts.findIndex((item) => item.ProductName === ProductName)
+
+            if (!x || x == 0) return alert("không hợp lệ")
+            if (parseInt(x) > parseInt(ProductAmount)) return alert("Không đủ hàng để mua")
+            console.log(ProductAmount, sum);
+            carts[index].sum = x
+            updateCartDisplay()
+        }
+
+        function deleteCart(ProductId, ProductType, ProductName, ProductImage, ProductPrice, ProductAmount, sum) {
+            const index = carts.findIndex((item) => item.ProductName === ProductName)
+
+            carts.splice(index, 1)
+            updateCartDisplay()
+        }
+
+        const purchase = () => {
+            console.log(carts);
+
+            if (!carts || carts.length === 0) return alert("Bạn chưa mua hàng")
+
+            $.post({
+                url: 'purchase',
+                dataType: 'json',
+                data: { carts, id: localStorage.getItem("id") },
+                success: (res) => {
+                    if (!res.message === "success") return alert(res.message)
+                    alert("Your trade is " + res.message)
+                    window.location.reload()
+                }
+            });
+        }
+
+
+    </script>
 </body>
+
 </html>
