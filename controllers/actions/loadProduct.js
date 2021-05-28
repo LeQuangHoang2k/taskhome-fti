@@ -1,7 +1,7 @@
 const { conn } = require("../../data/connect");
 
-const loadData = async (req, res) => {
-  console.log("> " + __dirname + "\\loadData.js");
+const loadProduct = async (req, res) => {
+  console.log("> " + __dirname + "\\loadProduct.js");
 
   //input
   if (await !checkInput(req.body))
@@ -47,4 +47,4 @@ const queryProduct = async (values) => {
   return { productInfor: result };
 };
 
-module.exports = loadData;
+module.exports = loadProduct;

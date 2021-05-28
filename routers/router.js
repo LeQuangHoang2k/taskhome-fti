@@ -5,8 +5,9 @@ const login = require("../controllers/account/login");
 const register = require("../controllers/account/register");
 const resetPassword = require("../controllers/account/resetPassword");
 const logout = require("../controllers/account/logout");
-const loadData = require("../controllers/actions/loadData");
+const loadProduct = require("../controllers/actions/loadProduct");
 const purchase = require("../controllers/cart/purchase");
+const loadBill = require("../controllers/actions/loadBill");
 
 console.log("> " + __dirname);
 
@@ -18,7 +19,9 @@ router.get("/shopping", (req, res) => {
   res.render("shopping");
 });
 
-router.post("/shopping", loadData);
+router.post("/loadProduct", loadProduct);
+
+router.post("/loadBill", loadBill);
 
 router.post("/purchase", purchase);
 
